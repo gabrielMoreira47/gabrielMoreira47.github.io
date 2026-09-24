@@ -2,7 +2,7 @@
 
 .hero {
   background: linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)),
-              url('images/vitrine.jpg') center/cover no-repeat;
+              url('imagens/vitrine.jpg') center/cover no-repeat;
   background-color: #d9d9d9;
 }
 
