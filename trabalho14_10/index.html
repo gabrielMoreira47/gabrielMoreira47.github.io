@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Laboratorio de JavaScript - Arrays e Datas</title>
+  <style>
+
+    body { 
+      font-family: system-ui, sans-serif; 
+      max-width: 860px; 
+      margin: 2rem auto; 
+      padding: 0 1rem; 
+      line-height: 1.5; 
+    }
+    h2 { 
+      margin-top: 2rem; 
+    }
+    pre { 
+      background: #f3f3f3; 
+      padding: 1rem; 
+      overflow-x: auto; 
+      border-radius: 6px; 
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Laboratório de JavaScript - Arrays e Datas</h1>
+
+  <h2>1. Inventores nascidos entre 1500 e 1599</h2>
+  <pre id="q1"></pre>
+
+  <h2>2. Primeiros e últimos nomes</h2>
+  <pre id="q2"></pre>
+
+  <h2>3. Ordenados por nascimento (do mais antigo ao mais novo)</h2>
+  <pre id="q3"></pre>
+
+  <h2>4. Anos em que todos estiveram vivos juntos</h2>
+  <pre id="q4"></pre>
+
+  <h2>5. Ordenados pelos anos vividos</h2>
+  <pre id="q5"></pre>
+
+  <h2>6. Lista sem redundâncias</h2>
+  <pre id="q6"></pre>
+
+  <script>
+    const inventors = [
+      { first: 'Albert', last: 'Einstein', year: 1879, passed: 1955 },
+      { first: 'Isaac', last: 'Newton', year: 1643, passed: 1727 },
+      { first: 'Galileo', last: 'Galilei', year: 1564, passed: 1642 },
+      { first: 'Marie', last: 'Curie', year: 1867, passed: 1934 },
+      { first: 'Johannes', last: 'Kepler', year: 1571, passed: 1630 },
+      { first: 'Nicolaus', last: 'Copernicus', year: 1473, passed: 1543 },
+      { first: 'Max', last: 'Planck', year: 1858, passed: 1947 },
+      { first: 'Katherine', last: 'Blodgett', year: 1898, passed: 1979 },
+      { first: 'Ada', last: 'Lovelace', year: 1815, passed: 1852 },
+      { first: 'Sarah E.', last: 'Goode', year: 1855, passed: 1905 },
+      { first: 'Lise', last: 'Meitner', year: 1878, passed: 1968 },
+      { first: 'Hanna', last: 'Hammarström', year: 1829, passed: 1909 }
+    ];
+
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike',
+      'walk', 'car', 'van', 'car', 'truck'];
+
+    const anosVividos = (inv) => inv.passed - inv.year;
+
+    function nascidosEntre(lista, inicio, fim) {
+      return lista.filter(inv => inv.year >= inicio && inv.year <= fim);
+    }
+    function nomesCompletos(lista) {
+      return lista.map(inv => `${inv.first} ${inv.last}`);
+    }
+    function ordenarPorNascimento(lista) {
+      return [...lista].sort((a, b) => a.year - b.year);
+    }
+
+    function anosJuntos(lista) {
+      const inicio = Math.max(...lista.map(inv => inv.year));
+      const fim = Math.min(...lista.map(inv => inv.passed));
+      return Math.max(0, fim - inicio);
+    }
+
+    function ordenarPorAnosVividos(lista) {
+      return [...lista].sort((a, b) => anosVividos(a) - anosVividos(b));
+    }
+
+    function removerRedundancias(lista) {
+      return [...new Set(lista)];
+    }
+
+    const mostrar = (id, texto) => document.getElementById(id).textContent = texto;
+
+    mostrar('q1', nomesCompletos(nascidosEntre(inventors, 1500, 1599)).join('\n'));
+
+    mostrar('q2', nomesCompletos(inventors).join('\n'));
+
+    mostrar('q3', ordenarPorNascimento(inventors)
+      .map(inv => `${inv.year} - ${inv.first} ${inv.last}`).join('\n'));
+
+    const juntos = anosJuntos(inventors);
+    mostrar('q4', juntos > 0
+      ? `Todos estiveram vivos juntos por ${juntos} anos.`
+      : 'Nenhum período em comum: 0 anos (Copernicus morreu em 1543, antes de Blodgett nascer em 1898).');
+
+    mostrar('q5', ordenarPorAnosVividos(inventors)
+      .map(inv => `${anosVividos(inv)} anos - ${inv.first} ${inv.last}`).join('\n'));
+
+    mostrar('q6', JSON.stringify(removerRedundancias(data)));
+  </script>
+</body>
+</html>
